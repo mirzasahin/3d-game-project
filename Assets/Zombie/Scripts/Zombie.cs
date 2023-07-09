@@ -13,6 +13,7 @@ public class Zombie : MonoBehaviour
 
     GameObject targetPlayer;
     public float attackDistance;
+    public float attackAnimDistance;
     NavMeshAgent zombieNavMesh;
     void Start()
     {
@@ -32,6 +33,8 @@ public class Zombie : MonoBehaviour
         if(zombiDead)
         {
             anim.SetBool("ZombieDead", true);
+            anim.SetBool("Run", false);
+            anim.SetBool("Attack", false);
             StartCoroutine(Destroy());
         }
 
@@ -40,7 +43,23 @@ public class Zombie : MonoBehaviour
             distance = Vector3.Distance(this.transform.position, targetPlayer.transform.position);
             if(distance < attackDistance)
             {
+                zombieNavMesh.isStopped = false;
                 zombieNavMesh.SetDestination(targetPlayer.transform.position);
+                anim.SetBool("Run", true);
+                anim.SetBool("Attack", false);
+            }
+            else
+            {
+                zombieNavMesh.isStopped = true;
+                anim.SetBool("Run", false);
+                anim.SetBool("Attack", false);
+            }
+            if (distance < attackAnimDistance)
+            {
+                zombieNavMesh.isStopped = true;
+                anim.SetBool("Run", false);
+                anim.SetBool("Attack", true);
+
             }
         }
     }
