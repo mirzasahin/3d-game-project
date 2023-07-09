@@ -24,7 +24,7 @@ public class Zombie : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
+    {
         if(zombieHP <= 0)
         {
             zombiDead = true;
@@ -47,6 +47,7 @@ public class Zombie : MonoBehaviour
                 zombieNavMesh.SetDestination(targetPlayer.transform.position);
                 anim.SetBool("Run", true);
                 anim.SetBool("Attack", false);
+                this.transform.LookAt(targetPlayer.transform.position);
             }
             else
             {
@@ -59,11 +60,15 @@ public class Zombie : MonoBehaviour
                 zombieNavMesh.isStopped = true;
                 anim.SetBool("Run", false);
                 anim.SetBool("Attack", true);
-
+                this.transform.LookAt(targetPlayer.transform.position);
             }
         }
     }
 
+    public void Damage()
+    {
+        targetPlayer.GetComponent<CharacterController>().takeDamage();
+    }
     IEnumerator Destroy()
     {
         yield return new WaitForSeconds(5);

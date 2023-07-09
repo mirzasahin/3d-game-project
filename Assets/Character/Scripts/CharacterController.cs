@@ -2,24 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterController : MonoBehaviour
 {
     Animator anim;
 
     [SerializeField]
     private float characterSpeed;
 
+    public float health = 100;
+    bool isLive;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = this.GetComponent<Animator>();
-
+        isLive = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Movement();
+        if(health <= 0)
+        {
+            isLive = false;
+            anim.SetBool("isLive", false);
+        }
+        if(isLive)
+        {
+            Movement();
+        }
+
+    }
+
+    public bool isAlive()
+    {
+        return isLive;
+    }
+
+    public void takeDamage()
+    {
+        health -= Random.Range(15, 25);
     }
 
     void Movement()
