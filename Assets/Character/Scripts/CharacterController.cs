@@ -10,7 +10,7 @@ public class CharacterController : MonoBehaviour
     private float characterSpeed;
 
     public float health = 100;
-    bool isLive;
+    bool isLive = true;
 
     // Start is called before the first frame update
     void Start()

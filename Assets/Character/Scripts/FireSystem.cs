@@ -7,10 +7,12 @@ public class FireSystem : MonoBehaviour
     Camera cam;
     public LayerMask zombieLayer;
     CharacterController healthController;
+    Animator anim;
     void Start()
     {
         cam = Camera.main;
         healthController = this.gameObject.GetComponent<CharacterController>();
+        anim = this.gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -20,12 +22,16 @@ public class FireSystem : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Fire();
+                anim.SetBool("Fire", true);
+            }
+            else if(Input.GetMouseButtonUp(0))
+            {
+                anim.SetBool("Fire", false);
             }
         }
     }
 
-    void Fire()
+    public void Fire()
     {
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
