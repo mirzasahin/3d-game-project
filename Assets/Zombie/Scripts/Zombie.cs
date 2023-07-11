@@ -17,23 +17,25 @@ public class Zombie : MonoBehaviour
     public float attackDistance;
     public float attackAnimDistance;
     NavMeshAgent zombieNavMesh;
+    private Rigidbody rb;
     void Start()
     {
         anim = this.GetComponent<Animator>();
         targetPlayer = GameObject.Find("Agent");
         zombieNavMesh = this.GetComponent<NavMeshAgent>();
+        rb = this.GetComponent<Rigidbody>();
         healthController = targetPlayer.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(zombieHP <= 0)
+        if (zombieHP <= 0)
         {
             zombiDead = true;
         }
 
-        if(zombiDead)
+        if (zombiDead)
         {
             anim.SetBool("ZombieDead", true);
             anim.SetBool("Run", false);
@@ -41,7 +43,7 @@ public class Zombie : MonoBehaviour
             StartCoroutine(Destroy());
         }
 
-        if(healthController.isAlive() == false)
+        if (healthController.isAlive() == false)
         {
             anim.SetBool("Attack", false);
             anim.SetBool("Run", false);
@@ -52,7 +54,7 @@ public class Zombie : MonoBehaviour
         else
         {
             distance = Vector3.Distance(this.transform.position, targetPlayer.transform.position);
-            if(distance < attackDistance)
+            if (distance < attackDistance && !zombiDead)
             {
                 zombieNavMesh.isStopped = false;
                 zombieNavMesh.SetDestination(targetPlayer.transform.position);

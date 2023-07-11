@@ -8,6 +8,7 @@ public class FireSystem : MonoBehaviour
     public LayerMask zombieLayer;
     CharacterController healthController;
     Animator anim;
+    public ParticleSystem muzzleFlash;
     void Start()
     {
         cam = Camera.main;
@@ -34,6 +35,7 @@ public class FireSystem : MonoBehaviour
     public void Fire()
     {
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        muzzleFlash.Play();
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit, Mathf.Infinity, zombieLayer))
         {
