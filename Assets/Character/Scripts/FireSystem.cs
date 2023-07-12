@@ -9,6 +9,10 @@ public class FireSystem : MonoBehaviour
     CharacterController healthController;
     Animator anim;
     public ParticleSystem muzzleFlash;
+
+    private float charger = 5; // Þarjör
+    private float ammo = 10; // Mühimmat
+    private float chargerCapacity = 5;
     void Start()
     {
         cam = Camera.main;
@@ -19,28 +23,49 @@ public class FireSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(healthController.isAlive() == true)
+        if (healthController.isAlive() == true)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
-                anim.SetBool("Fire", true);
+                if (charger > 0)
+                {
+                    anim.SetBool("Fire", true);
+                }
+                if (charger <= 0)
+                {
+                    anim.SetBool("Fire", false);
+                }
+                if (charger <= 0 && ammo > 0)
+                {
+                    anim.SetBool("changeCharger", true);
+                }
             }
-            else if(Input.GetMouseButtonUp(0))
+            else
             {
                 anim.SetBool("Fire", false);
             }
         }
     }
 
+    public void ChangeCharger()
+    {
+        ammo -= chargerCapacity;
+        charger = chargerCapacity;
+        anim.SetBool("changeCharger", false);
+    }
+
     public void Fire()
     {
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        muzzleFlash.Play();
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity, zombieLayer))
+        if (charger > 0)
         {
-            hit.collider.gameObject.GetComponent<Zombie>().takeDamage();
+            charger--;
+            muzzleFlash.Play();
+            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, zombieLayer))
+            {
+                hit.collider.gameObject.GetComponent<Zombie>().takeDamage();
+            }
         }
-
     }
 }
