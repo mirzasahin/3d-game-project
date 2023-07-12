@@ -10,8 +10,8 @@ public class FireSystem : MonoBehaviour
     Animator anim;
     public ParticleSystem muzzleFlash;
 
-    private float charger = 5; // Þarjör
-    private float ammo = 10; // Mühimmat
+    private float charger = 15; // Þarjör
+    private float ammo = 60; // Mühimmat
     private float chargerCapacity = 5;
     void Start()
     {
@@ -35,10 +35,10 @@ public class FireSystem : MonoBehaviour
                 {
                     anim.SetBool("Fire", false);
                 }
-                if (charger <= 0 && ammo > 0)
-                {
-                    anim.SetBool("changeCharger", true);
-                }
+            }
+            else if (charger <= 0 && ammo > 0)
+            {
+                anim.SetBool("changeCharger", true);
             }
             else
             {
@@ -67,5 +67,14 @@ public class FireSystem : MonoBehaviour
                 hit.collider.gameObject.GetComponent<Zombie>().takeDamage();
             }
         }
+    }
+
+    public float GetCharger()
+    {
+        return charger;
+    }
+    public float GetAmmo()
+    {
+        return ammo;
     }
 }

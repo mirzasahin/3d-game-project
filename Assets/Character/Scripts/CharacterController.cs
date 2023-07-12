@@ -9,7 +9,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private float characterSpeed;
 
-    public float health = 100;
+    private float health = 100;
     bool isLive = true;
 
     // Start is called before the first frame update
@@ -51,5 +51,10 @@ public class CharacterController : MonoBehaviour
         anim.SetFloat("Horizontal", horizontal);
         anim.SetFloat("Vertical", vertical);
         this.gameObject.transform.Translate(horizontal * characterSpeed * Time.deltaTime, 0, vertical * characterSpeed * Time.deltaTime);
+    }
+
+    public float GetHealth()
+    {
+        return health;
     }
 }
