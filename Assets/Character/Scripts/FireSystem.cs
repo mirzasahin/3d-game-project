@@ -13,11 +13,17 @@ public class FireSystem : MonoBehaviour
     private float charger = 15; // ?arj?r
     private float ammo = 60; // M?himmat
     private float chargerCapacity = 15;
+
+    AudioSource audioSource;
+    public AudioClip fireSound;
+    public AudioClip reloadSound;
+
     void Start()
     {
         cam = Camera.main;
         healthController = this.gameObject.GetComponent<CharacterController>();
         anim = this.gameObject.GetComponent<Animator>();
+        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -47,6 +53,11 @@ public class FireSystem : MonoBehaviour
         }
     }
 
+    public void ChangeChargerSound()
+    {
+        audioSource.PlayOneShot(reloadSound);
+    }
+
     public void ChangeCharger()
     {
         ammo -= chargerCapacity;
@@ -58,6 +69,7 @@ public class FireSystem : MonoBehaviour
     {
         if (charger > 0)
         {
+            audioSource.PlayOneShot(fireSound);
             charger--;
             muzzleFlash.Play();
             Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
