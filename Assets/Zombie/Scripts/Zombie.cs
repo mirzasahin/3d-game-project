@@ -17,14 +17,17 @@ public class Zombie : MonoBehaviour
     public float attackDistance;
     public float attackAnimDistance;
     NavMeshAgent zombieNavMesh;
-    private Rigidbody rb;
+
+    AudioSource audioSource;
+    public AudioClip attackSound;
+
     void Start()
     {
         anim = this.GetComponent<Animator>();
         targetPlayer = GameObject.Find("Agent");
         zombieNavMesh = this.GetComponent<NavMeshAgent>();
-        rb = this.GetComponent<Rigidbody>();
         healthController = targetPlayer.GetComponent<CharacterController>();
+        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -82,6 +85,12 @@ public class Zombie : MonoBehaviour
     {
         targetPlayer.GetComponent<CharacterController>().takeDamage();
     }
+
+    public void DamageSound()
+    {
+        audioSource.PlayOneShot(attackSound);
+    }
+
     IEnumerator Destroy()
     {
         yield return new WaitForSeconds(5);
