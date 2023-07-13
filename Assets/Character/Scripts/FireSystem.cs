@@ -10,9 +10,9 @@ public class FireSystem : MonoBehaviour
     Animator anim;
     public ParticleSystem muzzleFlash;
 
-    private float charger = 15; // Þarjör
-    private float ammo = 60; // Mühimmat
-    private float chargerCapacity = 5;
+    private float charger = 15; // ?arj?r
+    private float ammo = 60; // M?himmat
+    private float chargerCapacity = 15;
     void Start()
     {
         cam = Camera.main;
