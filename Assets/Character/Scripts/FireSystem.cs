@@ -13,6 +13,7 @@ public class FireSystem : MonoBehaviour
     private float charger = 15; // ?arj?r
     private float ammo = 60; // M?himmat
     private float chargerCapacity = 15;
+    private bool fire = false;
 
     AudioSource audioSource;
     public AudioClip fireSound;
@@ -33,10 +34,9 @@ public class FireSystem : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-                if (charger > 0)
-                {
-                    anim.SetBool("Fire", true);
-                }
+                anim.SetBool("Fire", charger > 0);
+                fire = false;
+
                 if (charger <= 0)
                 {
                     anim.SetBool("Fire", false);
@@ -67,7 +67,7 @@ public class FireSystem : MonoBehaviour
 
     public void Fire()
     {
-        if (charger > 0)
+        if (charger > 0 && !fire)
         {
             audioSource.PlayOneShot(fireSound);
             charger--;
@@ -79,6 +79,8 @@ public class FireSystem : MonoBehaviour
                 hit.collider.gameObject.GetComponent<Zombie>().takeDamage();
             }
         }
+        fire = true;
+
     }
 
     public float GetCharger()
